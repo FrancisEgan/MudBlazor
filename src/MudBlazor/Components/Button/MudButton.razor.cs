@@ -1,9 +1,6 @@
-﻿using System;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using MudBlazor.Utilities;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor.Extensions;
+using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
@@ -19,12 +16,16 @@ namespace MudBlazor
           .AddClass(Class)
         .Build();
 
-        protected string IconClassname =>
-        new CssBuilder()
-          .AddClass($"mud-button-start-icon", !String.IsNullOrEmpty(StartIcon))
-          .AddClass($"mud-button-end-icon", !String.IsNullOrEmpty(EndIcon))
+        protected string StartIconClass =>
+        new CssBuilder("mud-button-icon-start")
           .AddClass($"mud-button-icon-size-{Size.ToDescriptionString()}")
-          .AddClass(Class)
+          .AddClass(IconClass)
+        .Build();
+
+        protected string EndIconClass =>
+        new CssBuilder("mud-button-icon-end")
+          .AddClass($"mud-button-icon-size-{Size.ToDescriptionString()}")
+          .AddClass(IconClass)
         .Build();
 
         /// <summary>
@@ -36,6 +37,16 @@ namespace MudBlazor
         /// Icon placed before the text if set.
         /// </summary>
         [Parameter] public string EndIcon { get; set; }
+
+        /// <summary>
+        /// The color of the icon. It supports the theme colors.
+        /// </summary>
+        [Parameter] public Color IconColor { get; set; } = Color.Inherit;
+
+        /// <summary>
+        /// Icon class names, separated by space
+        /// </summary>
+        [Parameter] public string IconClass { get; set; }
 
         /// <summary>
         /// The color of the component. It supports the theme colors.

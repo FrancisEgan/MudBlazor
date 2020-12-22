@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor.Extensions;
-using MudBlazor.Utilities;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor.Extensions;
+using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
@@ -183,8 +182,11 @@ namespace MudBlazor
         protected async void OnDayClicked(DateTime dateTime)
         {
             Date = dateTime;
-            await Task.Delay(ClosingDelay);
-            Picker.Close();
+            if(PickerVariant != PickerVariant.Static)
+            {
+                await Task.Delay(ClosingDelay);
+                Picker.Close();
+            }
         }
 
         /// <summary>

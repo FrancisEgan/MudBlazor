@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using MudBlazor.Components.Select;
+using MudBlazor.Utilities;
 using MudBlazor.Utilities.Exceptions;
 
 namespace MudBlazor
@@ -73,6 +72,9 @@ namespace MudBlazor
 
         private Func<T, string> _toStringFunc = x => x?.ToString();
 
+        /// <summary>
+        /// Defines how values are displayed in the drop-down list
+        /// </summary>
         [Parameter]
         public Func<T, string> ToStringFunc
         {
@@ -113,6 +115,16 @@ namespace MudBlazor
                 if (!_value_lookup.TryGetValue(Value, out var item))
                     return false;
                 return (item.ChildContent != null);
+            }
+        }
+
+        protected bool IsValueInList
+        {
+            get
+            {
+                if (Value == null)
+                    return false;
+                return _value_lookup.TryGetValue(Value, out var item);
             }
         }
 
@@ -180,6 +192,13 @@ namespace MudBlazor
 
         [Parameter] public bool OffsetX { get; set; }
 
+        /// <summary>
+        /// If true, the select's input will not show any values that are not defined in the dropdown.
+        /// This can be useful if Value is bound to a variable which is initialized to a value which is not in the list
+        /// and you want the select to show the label / placeholder instead.
+        /// </summary>
+        [Parameter] public bool Strict { get; set; }
+
         internal bool isOpen { get; set; }
 
         public string CurrentIcon { get; set; }
@@ -211,7 +230,7 @@ namespace MudBlazor
 
         public void ToggleMenu()
         {
-            if (Disabled)
+            if (Disabled || ReadOnly)
                 return;
             isOpen = !isOpen;
             UpdateIcon();
@@ -220,8 +239,6 @@ namespace MudBlazor
 
         public void CloseMenu()
         {
-            if (Disabled)
-                return;
             isOpen = false;
             UpdateIcon();
             StateHasChanged();
@@ -229,14 +246,14 @@ namespace MudBlazor
 
         public void UpdateIcon()
         {
-                if (isOpen)
-                {
-                    CurrentIcon = OpenIcon;
-                }
-                else
-                {
-                    CurrentIcon = CloseIcon;
-                }
+            if (isOpen)
+            {
+                CurrentIcon = OpenIcon;
+            }
+            else
+            {
+                CurrentIcon = CloseIcon;
+            }
         }
 
         protected override void OnInitialized()

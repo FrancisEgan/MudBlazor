@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MudBlazor.Theme.Defaults;
-
-namespace MudBlazor
+﻿namespace MudBlazor
 {
     public class MudTheme
     {
@@ -22,4 +17,9 @@ namespace MudBlazor
             ZIndex = new ZIndex();
         }
     }
+}
+
+namespace MudBlazor.Theme.Defaults
+{
+    //Old added so it dosent break projects on update durin minor
 }

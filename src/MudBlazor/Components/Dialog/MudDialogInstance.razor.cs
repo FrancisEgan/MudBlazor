@@ -7,11 +7,11 @@
 // See https://github.com/Blazored
 
 
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
-using System;
-using System.Threading.Tasks;
 
 namespace MudBlazor.Dialog
 {
@@ -67,6 +67,7 @@ namespace MudBlazor.Dialog
             Class = Classname;
             NoHeader = SetHideHeader();
             CloseButton = SetCloseButton();
+            FullWidth = SetFullWidth();
             DisableBackdropClick = SetDisableBackdropClick();
         }
 
@@ -108,9 +109,21 @@ namespace MudBlazor.Dialog
             return $"mud-dialog-width-{maxWidth.ToDescriptionString()}";
         }
 
+        private bool SetFullWidth()
+        {
+            if (Options.FullWidth.HasValue)
+                return Options.FullWidth.Value;
+
+            if (GlobalDialogOptions.FullWidth.HasValue)
+                return GlobalDialogOptions.FullWidth.Value;
+
+            return false;
+        }
+
         protected string Classname =>
         new CssBuilder("mud-dialog")
             .AddClass(DialogMaxWidth)
+            .AddClass("mud-dialog-width-full", FullWidth == true)
         .Build();
 
         private bool SetHideHeader()

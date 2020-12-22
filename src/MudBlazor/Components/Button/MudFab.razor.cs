@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using MudBlazor.Utilities;
 using MudBlazor.Extensions;
+using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
     public partial class MudFab : MudBaseButton
     {
         protected string Classname =>
-        new CssBuilder("mud-fab-root mud-fab")
+        new CssBuilder("mud-button-root mud-fab")
           .AddClass($"mud-fab-extended", !String.IsNullOrEmpty(Label))
           .AddClass($"mud-fab-{Color.ToDescriptionString()}")
           .AddClass($"mud-fab-size-{Size.ToDescriptionString()}")
@@ -33,6 +31,11 @@ namespace MudBlazor
         /// If applied Icon will be added to the component.
         /// </summary>
         [Parameter] public string Icon { get; set; }
+
+        /// <summary>
+        /// The color of the icon. It supports the theme colors.
+        /// </summary>
+        [Parameter] public Color IconColor { get; set; } = Color.Inherit;
 
         /// <summary>
         /// If applied the text will be added to the component.

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using MudBlazor.Utilities;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace MudBlazor
 {
@@ -134,7 +125,7 @@ namespace MudBlazor
             /* to be overridden by descendants */
         }
 
-        public bool isOpen { get; set; }
+        internal bool isOpen { get; set; }
 
         public void ToggleOpen()
         {

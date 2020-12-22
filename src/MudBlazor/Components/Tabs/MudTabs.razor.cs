@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Extensions;
 using MudBlazor.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MudBlazor
 {
@@ -18,7 +18,9 @@ namespace MudBlazor
             new CssBuilder("mud-tabs-toolbar")
             .AddClass($"mud-tabs-rounded", Rounded)
             .AddClass($"mud-tabs-vertical", Vertical)
+            .AddClass($"mud-tabs-toolbar-{Color.ToDescriptionString()}", Color != Color.Default)
             .AddClass($"mud-border-right", Border)
+            .AddClass($"mud-paper-outlined", Outlined)
             .AddClass($"mud-elevation-{Elevation.ToString()}" , Elevation != 0)
             .Build();
 
@@ -44,6 +46,11 @@ namespace MudBlazor
         [Parameter] public bool Border { get; set; }
 
         /// <summary>
+        /// If true, toolbar will be outlined.
+        /// </summary>
+        [Parameter] public bool Outlined { get; set; }
+
+        /// <summary>
         /// If true, centers the tabitems.
         /// </summary>
         [Parameter] public bool Centered { get; set; }
@@ -52,6 +59,11 @@ namespace MudBlazor
         /// If true, displays the MudTabs verticaly.
         /// </summary>
         [Parameter] public bool Vertical { get; set; }
+
+        /// <summary>
+        /// The color of the component. It supports the theme colors.
+        /// </summary>
+        [Parameter] public Color Color { get; set; } = Color.Default;
 
         /// <summary>
         /// Child content of component.
@@ -99,12 +111,13 @@ namespace MudBlazor
 
             return TabClass;
         }
-        void ActivatePanel(MudTabPanel panel)
+        void ActivatePanel(MudTabPanel panel, MouseEventArgs ev)
         {
             if(!panel.Disabled)
             {
                 ActivePanel = panel;
                 ActivePanelIndex = Panels.IndexOf(panel);
+                ActivePanel.OnClick.InvokeAsync(ev);
             }
         }
     }

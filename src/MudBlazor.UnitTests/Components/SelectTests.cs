@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
@@ -158,6 +157,33 @@ namespace MudBlazor.UnitTests
             comp.Find("div.mud-input-slot").TextContent.Trim().Should().Be("Two");
             select.Instance.Value.Should().Be(2);
             select.Instance.Text.Should().Be("2");
+        }
+
+        /// <summary>
+        /// Don't show initial value which is not in list because of Strict=true.
+        /// </summary>
+        [Test]
+        public async Task SelectUnrepresentableValueTest2()
+        {
+            using var ctx = new Bunit.TestContext();
+            ctx.Services.AddSingleton<NavigationManager>(new MockNavigationManager());
+            var comp = ctx.RenderComponent<SelectUnrepresentableValueTest2>();
+            // print the generated html
+            Console.WriteLine(comp.Markup);
+            // select elements needed for the test
+            var select = comp.FindComponent<MudSelect<int>>();
+            select.Instance.Value.Should().Be(17);
+            select.Instance.Text.Should().Be("17");
+            await Task.Delay(100);
+            // BUT: we have a select with Strict="true" so the Text will not be shown because it is not in the list of selectable values
+            comp.FindComponent<MudInput<string>>().Instance.Value.Should().Be(null);
+            comp.FindComponent<MudInput<string>>().Instance.InputType.Should().Be(InputType.Hidden);
+            var items = comp.FindAll("div.mud-list-item").ToArray();
+            items[1].Click();
+            select.Instance.Value.Should().Be(2);
+            select.Instance.Text.Should().Be("2");
+            comp.FindComponent<MudInput<string>>().Instance.Value.Should().Be("2");
+            comp.FindComponent<MudInput<string>>().Instance.InputType.Should().Be(InputType.Text); // because list item has no render fragment, so we show it as text
         }
 
         /// <summary>

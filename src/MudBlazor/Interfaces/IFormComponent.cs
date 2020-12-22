@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Components;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MudBlazor.Interfaces
 {
@@ -10,7 +9,7 @@ namespace MudBlazor.Interfaces
         public bool Error { get; set; }
         public List<string> ValidationErrors { get; set; }
 
-        public void Validate();
+        public Task Validate();
 
         public void Reset();
         public void ResetValidation();
